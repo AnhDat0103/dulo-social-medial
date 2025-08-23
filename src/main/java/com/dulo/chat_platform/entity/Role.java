@@ -20,4 +20,7 @@ public class Role {
     @Column(name = "name", nullable = false, unique = true)
     @Enumerated(EnumType.STRING)
     private RoleName name;
+
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    private java.util.Set<User> users;
 }
