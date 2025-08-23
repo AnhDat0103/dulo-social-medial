@@ -42,12 +42,12 @@ public class Post {
     private User user;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private java.util.List<PostAttachment> attachments;
+    private java.util.List<PostAttachment> attachments = new java.util.ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private java.util.List<Comment> comments;
+    private java.util.List<Comment> comments = new java.util.ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private java.util.List<Like> likes;
+    private java.util.List<Like> likes = new java.util.ArrayList<>();
 
 }
