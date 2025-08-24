@@ -2,6 +2,7 @@ package com.dulo.chat_platform.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 import java.util.Date;
@@ -25,5 +26,6 @@ public class UserRequest {
 
     private String avatar;
 
+    @Pattern(regexp = "^[0-9]{10,11}$", message = "Phone number must be 10 to 11 digits")
     private String phone;
 }
