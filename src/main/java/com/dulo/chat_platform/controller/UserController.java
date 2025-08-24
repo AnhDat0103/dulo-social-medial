@@ -1,23 +1,37 @@
 package com.dulo.chat_platform.controller;
 
 import com.dulo.chat_platform.dto.request.RegistrationRequest;
+import com.dulo.chat_platform.dto.response.ApiResponse;
+import com.dulo.chat_platform.dto.response.UserResponse;
+import com.dulo.chat_platform.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
 
+    private final UserService userService;
+
     @PostMapping
-    public String createUser(@RequestBody @Valid RegistrationRequest user) {
-        if(user != null) {
-            return "User created";
-        } else
-            return "User not found";
+    public ApiResponse<UserResponse> createUser(@RequestBody @Valid RegistrationRequest user) {
+        UserResponse userResponse = userService.createUser(user);
+        return ApiResponse.<UserResponse>builder()
+                .code("200")
+                .message("User created successfully")
+                .data(userResponse)
+                .build();
+    }
+
+    @GetMapping
+    public ApiResponse<UserResponse> getUserByEmail(@RequestParam("email") String email) {
+        UserResponse userResponse = userService.getUserByEmail(email);
+        return ApiResponse.<UserResponse>builder()
+                .code("200")
+                .message("User retrieved successfully")
+                .data(userResponse)
+                .build();
     }
 }
