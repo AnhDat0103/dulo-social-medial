@@ -13,7 +13,7 @@ public class MatchPasswordValidator implements ConstraintValidator<MatchPassword
 
     @Override
     public boolean isValid(RegistrationRequest value, ConstraintValidatorContext context) {
-        if(value.getPassword() == null || value.getConfirmPassword() == null) return false;
+        if(value.getPassword().isEmpty() || value.getConfirmPassword().isEmpty()) return false;
         return value.getPassword().equals(value.getConfirmPassword());
     }
 }

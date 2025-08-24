@@ -1,5 +1,6 @@
 package com.dulo.chat_platform.dto.request;
 
+import com.dulo.chat_platform.entity.User;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -13,5 +14,5 @@ public class NotificationRequest {
     @NotNull(message = "Content cannot be null")
     private String content;
 
-    private UserRequest receiver;
+    private User receiver;
 }

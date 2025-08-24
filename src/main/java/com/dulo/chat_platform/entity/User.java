@@ -2,12 +2,14 @@ package com.dulo.chat_platform.entity;
 
 import com.dulo.chat_platform.entity.enums.Provider;
 import com.dulo.chat_platform.entity.enums.UserStatus;
+import com.dulo.chat_platform.validation.DateOfBirth;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
@@ -39,7 +41,8 @@ public class User {
 
     @Column(name = "dob", nullable = false)
     @NotNull(message = "Date of birth cannot be null")
-    private Date dob;
+    @DateOfBirth
+    private LocalDate dob;
 
     private String avatar;
 
