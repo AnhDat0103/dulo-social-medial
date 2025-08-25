@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @org.springframework.context.annotation.Configuration
 public class Configuration {
 
-private final String[] PUBLIC_ENDPOINTS =  {"/users/**","/auth/login"};
+private final String[] PUBLIC_ENDPOINTS =  {"/users/**","/auth/**"};
 
     @Bean
     public PasswordEncoder passwordEncoder() {

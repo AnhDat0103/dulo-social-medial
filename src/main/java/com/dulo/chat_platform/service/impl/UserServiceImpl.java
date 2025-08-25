@@ -12,6 +12,7 @@ import com.dulo.chat_platform.mapper.UserMapper;
 import com.dulo.chat_platform.repository.PhoneRepository;
 import com.dulo.chat_platform.repository.RoleRepository;
 import com.dulo.chat_platform.repository.UserRepository;
+import com.dulo.chat_platform.service.EmailVerificationService;
 import com.dulo.chat_platform.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,6 +31,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
     private final RoleRepository roleRepository;
+    private final EmailVerificationService emailVerificationService;
 
     @Override
     public UserResponse createUser(RegistrationRequest registrationRequest) {
@@ -59,6 +61,11 @@ public class UserServiceImpl implements UserService {
         user.setPhones(phones);
 
         userRepository.save(user);
+        try {
+            emailVerificationService.sendVerificationEmail(user);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to send verification email", e);
+        }
         return userMapper.toUserResponse(user);
 
     }

@@ -22,4 +22,11 @@ public class AuthenticationController {
                .data(result)
                .build();
     }
+
+    @GetMapping("/verify")
+    public String verify(@RequestParam String token){
+        return authenticationService.verify(token);
+    }
+
+
 }
