@@ -15,6 +15,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @org.springframework.context.annotation.Configuration
 public class Configuration {
 
+private final String[] PUBLIC_ENDPOINTS =  {"/users/**","/auth/login"};
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
@@ -36,7 +38,7 @@ public class Configuration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         auth ->
-                                auth.requestMatchers("/users/**").permitAll()
+                                auth.requestMatchers(PUBLIC_ENDPOINTS).permitAll()
                                 .anyRequest().authenticated());
         return http.build();
     }
