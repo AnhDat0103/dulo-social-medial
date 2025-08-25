@@ -5,9 +5,11 @@ import com.dulo.chat_platform.dto.response.UserResponse;
 import com.dulo.chat_platform.entity.Phone;
 import com.dulo.chat_platform.entity.Role;
 import com.dulo.chat_platform.entity.User;
+import com.dulo.chat_platform.entity.enums.ErrorEnum;
 import com.dulo.chat_platform.entity.enums.Provider;
 import com.dulo.chat_platform.entity.enums.RoleName;
 import com.dulo.chat_platform.entity.enums.UserStatus;
+import com.dulo.chat_platform.exception.AppException;
 import com.dulo.chat_platform.mapper.UserMapper;
 import com.dulo.chat_platform.repository.PhoneRepository;
 import com.dulo.chat_platform.repository.RoleRepository;
@@ -36,10 +38,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse createUser(RegistrationRequest registrationRequest) {
         if(userRepository.existsByEmail(registrationRequest.getEmail())) {
-             throw new IllegalArgumentException("Email already in use");
+             throw new AppException(ErrorEnum.EMAIL_ALREADY_EXISTS);
         }
         if(phoneRepository.existsByPhone(registrationRequest.getPhone())) {
-            throw new IllegalArgumentException("Phone number already in use");
+            throw new AppException(ErrorEnum.PHONE_ALREADY_EXISTS);
         }
         User user = userMapper.toUser(registrationRequest);
         user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
@@ -64,7 +66,7 @@ public class UserServiceImpl implements UserService {
         try {
             emailVerificationService.sendVerificationEmail(user);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to send verification email", e);
+            throw new AppException(ErrorEnum.EMAIL_VERIFICATION_SENDING_FAILED);
         }
         return userMapper.toUserResponse(user);
 
