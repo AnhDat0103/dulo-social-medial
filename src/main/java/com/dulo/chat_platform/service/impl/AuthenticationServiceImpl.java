@@ -23,19 +23,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     private final VerificationTokenRepository verificationTokenRepository;
 
-    @Override
-    public String authentication(AuthenticationRequest request) {
-        User user = userRepository.findByEmailAndStatus(request.getEmail(), UserStatus.ACTIVE);
-        if (user == null) {
-            throw new AppException(ErrorEnum.USER_NOT_FOUND);
-        }else{
-            if(passwordEncoder.matches(request.getPassword(), user.getPassword())){
-                return "Authentication successful";
-            }else{
-                throw new AppException(ErrorEnum.INVALID_PASSWORD);
-            }
-        }
-    }
+//    @Override
+//    public String authentication(AuthenticationRequest request) {
+//        User user = userRepository.findByEmailAndStatus(request.getEmail(), UserStatus.ACTIVE);
+//        if (user == null) {
+//            throw new AppException(ErrorEnum.USER_NOT_FOUND);
+//        }else{
+//            if(passwordEncoder.matches(request.getPassword(), user.getPassword())){
+//                return "Authentication successful";
+//            }else{
+//                throw new AppException(ErrorEnum.INVALID_PASSWORD);
+//            }
+//        }
+//    }
 
     @Override
     public String verify(String token) {

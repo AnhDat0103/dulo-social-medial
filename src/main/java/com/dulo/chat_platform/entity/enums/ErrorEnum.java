@@ -17,8 +17,9 @@ public enum ErrorEnum {
     INVALID_PASSWORD("1009", "Invalid password"),
     EMAIL_CERTIFICATED("1010", "Email already verified"),
     PHONE_ALREADY_EXISTS("1011", "Phone number already exists"),
-    EMAIL_VERIFICATION_SENDING_FAILED("1012", "Failed to send verification email"),;
-
+    EMAIL_VERIFICATION_SENDING_FAILED("1012", "Failed to send verification email"),
+    BAD_CREDENTIALS("1022","username or password is invalid."),
+    DISABLED_EXCEPTION("1023", "The account has not activated yet.");
     private final String code;
     private final String message;
 
