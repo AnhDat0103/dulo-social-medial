@@ -39,7 +39,7 @@ public class EmailVerificationServiceImpl implements EmailVerificationService {
         // save the token to the database'
         verificationTokenRepository.save(verificationToken);
 
-        String verificationLink = "http://localhost:8080/auth/verify?token=" + token;
+        String verificationLink = "http://localhost:8080/auth/verify-email?token=" + token;
 
         // send email
         MimeMessage message = mailSender.createMimeMessage();
