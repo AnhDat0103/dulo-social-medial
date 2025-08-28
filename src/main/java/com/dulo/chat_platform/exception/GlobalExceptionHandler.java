@@ -5,11 +5,13 @@ import com.dulo.chat_platform.entity.enums.ErrorEnum;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AuthenticationEntryPointFailureHandler;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.w3c.dom.Entity;
 
 import java.nio.file.AccessDeniedException;
 
@@ -53,4 +55,18 @@ public class GlobalExceptionHandler {
                         .build()
         );
     }
+
+    @ExceptionHandler(LockedException.class)
+    public ResponseEntity<ErrorApiResponse<ErrorResponse>> lockedExceptionHandle(){
+        ErrorResponse error = ErrorResponse.builder()
+                .code(ErrorEnum.ACCOUNT_LOCKED.getCode())
+                .message(ErrorEnum.ACCOUNT_LOCKED.getMessage())
+                .build();
+        return ResponseEntity.badRequest().body(
+                ErrorApiResponse.<ErrorResponse>builder()
+                        .errors(error)
+                        .build()
+        );
+    }
+
 }

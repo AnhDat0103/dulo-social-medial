@@ -15,7 +15,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping
+    @PostMapping("sign-up")
     public ApiResponse<UserResponse> createUser(@RequestBody @Valid RegistrationRequest user) {
         UserResponse userResponse = userService.createUser(user);
         return ApiResponse.<UserResponse>builder()
