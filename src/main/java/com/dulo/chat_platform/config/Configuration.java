@@ -2,6 +2,7 @@ package com.dulo.chat_platform.config;
 
 import com.dulo.chat_platform.entity.enums.ErrorEnum;
 import com.dulo.chat_platform.exception.AppException;
+import com.dulo.chat_platform.exception.CustomAuthenticationEntryPoint;
 import com.dulo.chat_platform.service.impl.CustomerUserDetailsService;
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 import lombok.RequiredArgsConstructor;
@@ -61,7 +62,7 @@ public class Configuration {
                                         .requestMatchers(HttpMethod.POST, ".users").permitAll()
                                 .anyRequest().authenticated())
                 .exceptionHandling(
-                        ex -> ex.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+                        ex -> ex.authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                                 .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
                 )
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
