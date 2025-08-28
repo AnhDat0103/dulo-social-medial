@@ -33,7 +33,7 @@ import java.nio.charset.StandardCharsets;
 
 @org.springframework.context.annotation.Configuration
 @RequiredArgsConstructor
-@EnableWebSecurity
+@EnableWebSecurity // bat cofig de su dung cac annotation @PreAuthorize
 public class Configuration {
 
     @Value("${spring.security.oauth2.resourceserver.jwt.jwt-key}")
