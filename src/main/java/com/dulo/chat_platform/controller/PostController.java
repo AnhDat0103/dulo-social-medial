@@ -4,13 +4,12 @@ import com.dulo.chat_platform.dto.request.PostPatchRequest;
 import com.dulo.chat_platform.dto.request.PostRequest;
 import com.dulo.chat_platform.dto.response.ApiResponse;
 import com.dulo.chat_platform.dto.response.PostResponse;
-import com.dulo.chat_platform.entity.enums.PostScope;
 import com.dulo.chat_platform.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/posts")
@@ -20,8 +19,9 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public ApiResponse<PostResponse> createPost(@RequestBody PostRequest postRequest) {
-        PostResponse postResponse = postService.createPost(postRequest);
+    public ApiResponse<PostResponse> createPost(@RequestBody PostRequest postRequest, Authentication authentication) {
+        String email = authentication.getName();
+        PostResponse postResponse = postService.createPost(postRequest, email);
         return ApiResponse.<PostResponse>builder()
                 .code("200")
                 .message("Create post is successfully")
@@ -29,7 +29,7 @@ public class PostController {
                 .build();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id:\\d+}")
     public ApiResponse<PostResponse> getPostById(@PathVariable int id) {
         PostResponse postResponse = postService.getPostById(id);
         return ApiResponse.<PostResponse>builder()
@@ -40,9 +40,12 @@ public class PostController {
     }
 
     @GetMapping
-    public ApiResponse<List<PostResponse>> getAllPosts(){
-        List<PostResponse> posts = postService.getAllPosts();
-        return ApiResponse.<List<PostResponse>>builder()
+    public ApiResponse<Page<PostResponse>> getAllPosts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
+    ){
+        Page<PostResponse> posts = postService.getAllPosts(page, size);
+        return ApiResponse.<Page<PostResponse>>builder()
                 .code("200")
                 .message("Get all post successfully")
                 .data(posts)
@@ -50,10 +53,12 @@ public class PostController {
     }
 
     @GetMapping("/my-posts")
-    public ApiResponse<List<PostResponse>> getAllMyPosts(Authentication authentication){
+    public ApiResponse<Page<PostResponse>> getAllMyPosts(Authentication authentication,
+                                                         @RequestParam(defaultValue = "0") int page,
+                                                         @RequestParam(defaultValue = "5") int size){
         String email = authentication.getName();
-        List<PostResponse> posts = postService.getMyPosts(email);
-        return ApiResponse.<List<PostResponse>>builder()
+        Page<PostResponse> posts = postService.getMyPosts(email, page, size);
+        return ApiResponse.<Page<PostResponse>>builder()
                 .code("200")
                 .message("Get all my post successfully")
                 .data(posts)
@@ -61,11 +66,15 @@ public class PostController {
     }
 
     @GetMapping("/friend-public-posts")
-    public ApiResponse<List<PostResponse>> getAllFriendOnlyPosts(@RequestParam("friend-id") int id){
-        List<PostResponse> posts = postService.getFriendPostsByEmailAndScope(id, PostScope.FRIEND_ONLY);
-        return ApiResponse.<List<PostResponse>>builder()
+    public ApiResponse<Page<PostResponse>> getAllFriendOnlyPosts(
+            @RequestParam("friend-id") int friendId,
+            @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "5") int size, Authentication authentication){
+        String emailViewer = authentication.getName();
+        Page<PostResponse> posts = postService.getFriendPostsByFriendIdAndScope(emailViewer,friendId, page, size);
+        return ApiResponse.<Page<PostResponse>>builder()
                 .code("200")
-                .message("Get all my post successfully")
+                .message("Get all friend post successfully")
                 .data(posts)
                 .build();
     }

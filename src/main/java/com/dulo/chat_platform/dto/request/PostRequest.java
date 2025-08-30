@@ -1,6 +1,8 @@
 package com.dulo.chat_platform.dto.request;
 
-import com.dulo.chat_platform.entity.User;
+import com.dulo.chat_platform.entity.enums.PostScope;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -14,5 +16,6 @@ public class PostRequest {
     @NotNull(message = "Content cannot be null")
     private String content;
 
-    private User user;
+    @Enumerated(EnumType.STRING)
+    PostScope scope;
 }

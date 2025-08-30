@@ -25,9 +25,11 @@ public class Post {
     private String content;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "post_status")
     private PostStatus status;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "post_scope")
     private PostScope scope;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
