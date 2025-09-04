@@ -4,15 +4,15 @@ import com.dulo.chat_platform.entity.Post;
 import com.dulo.chat_platform.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post,Integer> {
-    Page<Post> findAllByUserAndIsDeleted(User user, Boolean isDeleted,Pageable pageable);
+    Page<Post> findAllByUserAndIsDeleted(User user, Boolean isDeleted, Pageable pageable);
 
     @Query(
             value= "SELECT p.* FROM posts p where p.user_id = ?1 AND is_deleted = 0 AND scope = 'PUBLIC' ORDER BY created_at DESC;",

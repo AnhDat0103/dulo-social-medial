@@ -1,6 +1,5 @@
 package com.dulo.chat_platform.dto.response;
 
-import com.dulo.chat_platform.entity.Phone;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -12,7 +11,7 @@ import java.util.Set;
 @Setter
 @Builder
 public class UserResponse {
-    private int userId;
+    private int id;
     private String email;
     private String fullName;
     private String avatar;

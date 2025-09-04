@@ -16,12 +16,10 @@ import com.dulo.chat_platform.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.web.PagedModel;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -40,12 +38,12 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Page<PostResponse> getAllPosts(int page, int size) {
-        return postRepository.findAllByIsDeleted(false,PageRequest.of(page, size)).map(postMapper::toPostResponse);
+        return postRepository.findAllByIsDeleted(false,PageRequest.of(page, size, Sort.by("createdAt").descending())).map(postMapper::toPostResponse);
     }
 
     @Override
     public Page<PostResponse> getMyPosts(String email, int page, int size) {
-        PageRequest pageRequest = PageRequest.of(page, size);
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdAt").descending());
         User user = userRepository.findByEmail(email);
         if(user == null) throw new AppException(ErrorEnum.USER_NOT_FOUND);
 
@@ -84,7 +82,20 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostResponse updatePost(String email, PostPatchRequest  postPatchRequest, int currentPostId) {
-        return null;
+        User currentUser = userRepository.findByEmail(email);
+        if(currentUser == null) throw new AppException(ErrorEnum.USER_NOT_FOUND);
+        Post post = postRepository.findById(currentPostId).orElseThrow(
+                () -> new AppException(ErrorEnum.POST_NOT_FOUND)
+        );
+        if(!post.getUser().equals(currentUser)) {
+            throw new AppException(ErrorEnum.ACCESSIONED_EXCEPTION);
+        }
+        if(postPatchRequest.getContent() != null || !postPatchRequest.getContent().isBlank()) {
+            post.setContent(postPatchRequest.getContent());
+            post.setCreatedAt(LocalDateTime.now());
+            postRepository.save(post);
+        }
+        return postMapper.toPostResponse(post);
     }
 
     @Override

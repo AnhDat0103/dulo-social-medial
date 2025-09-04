@@ -20,7 +20,9 @@ public enum ErrorEnum {
     EMAIL_VERIFICATION_SENDING_FAILED("1012", "Failed to send verification email"),
     BAD_CREDENTIALS("1022","username or password is invalid."),
     DISABLED_EXCEPTION("1023", "The account has not activated yet."),
-    ACCOUNT_LOCKED("1024", "Account is banned.");
+    ACCOUNT_LOCKED("1024", "Account is banned."),
+    POST_NOT_FOUND("1025", "Post not exist!" ),
+    ACCESSIONED_EXCEPTION("1026", "You are not allowed to update this post");
 
     private final String code;
     private final String message;
