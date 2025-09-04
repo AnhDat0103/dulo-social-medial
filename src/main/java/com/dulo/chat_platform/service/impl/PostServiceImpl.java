@@ -100,7 +100,17 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void deletePost(String email, int postId) {
-
+        User currentUser = userRepository.findByEmail(email);
+        if(currentUser == null) throw new AppException(ErrorEnum.USER_NOT_FOUND);
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new AppException(ErrorEnum.POST_NOT_FOUND)
+        );
+        if(!post.getUser().equals(currentUser)) {
+            throw new AppException(ErrorEnum.ACCESSIONED_EXCEPTION);
+        }
+        post.setIsDeleted(true);
+        post.setStatus(PostStatus.DELETED);
+        postRepository.save(post);
     }
 
     private boolean checkFriendShip(User user1, User user2){
