@@ -7,6 +7,7 @@ import com.dulo.chat_platform.dto.response.PostResponse;
 import com.dulo.chat_platform.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.web.PagedModel;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,42 +41,42 @@ public class PostController {
     }
 
     @GetMapping
-    public ApiResponse<Page<PostResponse>> getAllPosts(
+    public ApiResponse<PagedModel<PostResponse>> getAllPosts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size
     ){
         Page<PostResponse> posts = postService.getAllPosts(page, size);
-        return ApiResponse.<Page<PostResponse>>builder()
+        return ApiResponse.<PagedModel<PostResponse>>builder()
                 .code("200")
                 .message("Get all post successfully")
-                .data(posts)
+                .data(new PagedModel<>(posts))
                 .build();
     }
 
     @GetMapping("/my-posts")
-    public ApiResponse<Page<PostResponse>> getAllMyPosts(Authentication authentication,
+    public ApiResponse<PagedModel<PostResponse>> getAllMyPosts(Authentication authentication,
                                                          @RequestParam(defaultValue = "0") int page,
                                                          @RequestParam(defaultValue = "5") int size){
         String email = authentication.getName();
         Page<PostResponse> posts = postService.getMyPosts(email, page, size);
-        return ApiResponse.<Page<PostResponse>>builder()
+        return ApiResponse.<PagedModel<PostResponse>>builder()
                 .code("200")
                 .message("Get all my post successfully")
-                .data(posts)
+                .data(new PagedModel<>(posts))
                 .build();
     }
 
     @GetMapping("/friend-public-posts")
-    public ApiResponse<Page<PostResponse>> getAllFriendOnlyPosts(
+    public ApiResponse<PagedModel<PostResponse>> getAllFriendOnlyPosts(
             @RequestParam("friend-id") int friendId,
             @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "5") int size, Authentication authentication){
         String emailViewer = authentication.getName();
         Page<PostResponse> posts = postService.getFriendPostsByFriendIdAndScope(emailViewer,friendId, page, size);
-        return ApiResponse.<Page<PostResponse>>builder()
+        return ApiResponse.<PagedModel<PostResponse>>builder()
                 .code("200")
                 .message("Get all friend post successfully")
-                .data(posts)
+                .data(new PagedModel<>(posts))
                 .build();
     }
 

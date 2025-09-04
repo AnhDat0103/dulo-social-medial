@@ -4,6 +4,8 @@ import com.dulo.chat_platform.dto.request.PostPatchRequest;
 import com.dulo.chat_platform.dto.request.PostRequest;
 import com.dulo.chat_platform.dto.response.PostResponse;
 import org.springframework.data.domain.Page;
+import org.springframework.data.web.PagedModel;
+
 
 
 public interface PostService {
