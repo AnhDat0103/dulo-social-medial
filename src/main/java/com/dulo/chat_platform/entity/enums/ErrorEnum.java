@@ -22,7 +22,8 @@ public enum ErrorEnum {
     DISABLED_EXCEPTION("1023", "The account has not activated yet."),
     ACCOUNT_LOCKED("1024", "Account is banned."),
     POST_NOT_FOUND("1025", "Post not exist!" ),
-    ACCESSIONED_EXCEPTION("1026", "You are not allowed to update this post");
+    ACCESSIONED_EXCEPTION("1026", "You are not allowed to update this post"),
+    FILE_FAIL_TO_STORE("1027", "Failed to store file." );
 
     private final String code;
     private final String message;

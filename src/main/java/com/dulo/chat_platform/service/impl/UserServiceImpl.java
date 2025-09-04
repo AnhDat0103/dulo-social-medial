@@ -117,6 +117,16 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    @Override
+    public void uploadAvatar(String email, String fileName) {
+        User user =  userRepository.findByEmail(email);
+        if(user == null) throw new AppException(ErrorEnum.USER_NOT_FOUND);
+        if(!fileName.isEmpty() || !fileName.isBlank()) {
+            user.setAvatar(fileName);
+            userRepository.save(user);
+        }
+    }
+
     private void addNewPhoneToCurrentPhones(User user, Set<Phone> newPhones){
         Set<Phone> currentPhones = user.getPhones();
 

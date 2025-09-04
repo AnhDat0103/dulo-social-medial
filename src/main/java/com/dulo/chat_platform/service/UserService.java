@@ -15,4 +15,6 @@ public interface UserService {
     UserResponse updateUserByPatch(String email, UserPatchRequest userPatchRequest);
 
     void deleteUserById(int id);
+
+    void uploadAvatar(String email, String fileName);
 }
