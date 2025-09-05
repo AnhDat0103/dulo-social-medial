@@ -1,5 +1,6 @@
 package com.dulo.chat_platform.dto.request;
 
+import com.dulo.chat_platform.dto.response.PostResponse;
 import com.dulo.chat_platform.entity.enums.FileType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -17,6 +18,6 @@ public class PostAttachmentRequest {
     @Enumerated(EnumType.STRING)
     private FileType fileType;
 
-    private PostRequest post;
+    private int postId;
 
 }

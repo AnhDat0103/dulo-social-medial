@@ -23,7 +23,8 @@ public enum ErrorEnum {
     ACCOUNT_LOCKED("1024", "Account is banned."),
     POST_NOT_FOUND("1025", "Post not exist!" ),
     ACCESSIONED_EXCEPTION("1026", "You are not allowed to update this post"),
-    FILE_FAIL_TO_STORE("1027", "Failed to store file." );
+    FILE_FAIL_TO_STORE("1027", "Failed to store file." ),
+    ATTACHMENT_NOT_FOUND("1028", "Attachment is not found" );
 
     private final String code;
     private final String message;
