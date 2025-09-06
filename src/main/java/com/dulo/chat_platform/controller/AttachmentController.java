@@ -34,5 +34,16 @@ public class AttachmentController {
                 .build();
     }
 
+    @PatchMapping("/{id}")
+    public ApiResponse<PostAttachmentResponse> updateAttachment(@RequestBody PostAttachmentRequest postAttachmentRequest, @PathVariable int id){
+        return ApiResponse.<PostAttachmentResponse>builder()
+                .code("200")
+                .message("Update attachment is successfully.")
+                .data(attachmentService.updateAttachment(postAttachmentRequest,id))
+                .build();
+    }
+
+
+
 
 }
