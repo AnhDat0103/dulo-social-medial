@@ -44,8 +44,17 @@ public class AttachmentServiceImpl implements AttachmentService {
     }
 
     @Override
-    public PostAttachmentResponse updateAttachment(PostAttachmentRequest attachmentRequest) {
-        return null;
+    public PostAttachmentResponse updateAttachment(PostAttachmentRequest attachmentRequest, int attachmentId) {
+        PostAttachment attachment = postAttachmentRepository.findById(attachmentId).orElseThrow(
+                () -> new AppException(ErrorEnum.ATTACHMENT_NOT_FOUND)
+        );
+        if(attachmentRequest.getFileUrl() != null){
+            attachment.setFileUrl(attachmentRequest.getFileUrl());
+            attachment.setFileType(attachmentRequest.getFileType());
+            attachment.setCreatedAt(LocalDateTime.now());
+            postAttachmentRepository.save(attachment);
+        }
+        return postAttachmentMapper.toPostAttachmentResponse(attachment);
     }
 
     @Override

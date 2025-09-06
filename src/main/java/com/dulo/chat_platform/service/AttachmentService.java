@@ -9,7 +9,7 @@ public interface AttachmentService {
 
     PostAttachmentResponse createAttachment(PostAttachmentRequest attachmentRequest);
 
-    PostAttachmentResponse updateAttachment(PostAttachmentRequest attachmentRequest);
+    PostAttachmentResponse updateAttachment(PostAttachmentRequest attachmentRequest, int attachmentId);
 
     List<PostAttachmentResponse> getAllAttachment(int postId);
 

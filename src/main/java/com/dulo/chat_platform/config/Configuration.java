@@ -57,7 +57,7 @@ public class Configuration {
                 .authorizeHttpRequests(
                         auth ->
                                 auth.requestMatchers(PUBLIC_ENDPOINTS).permitAll()
-                                        .requestMatchers(HttpMethod.POST, ".users").permitAll()
+                                        .requestMatchers(HttpMethod.POST, "/users").permitAll()
                                 .anyRequest().authenticated())
                 .exceptionHandling(
                         ex -> ex.authenticationEntryPoint(new CustomAuthenticationEntryPoint())
