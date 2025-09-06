@@ -43,6 +43,14 @@ public class AttachmentController {
                 .build();
     }
 
+    @DeleteMapping("/{id}")
+    public ApiResponse<Void> deleteAttachment(@PathVariable int id){
+        attachmentService.deleteAttachment(id);
+        return ApiResponse.<Void>builder()
+                .code("200")
+                .message("The attachment is deleted.")
+                .build();
+    }
 
 
 
