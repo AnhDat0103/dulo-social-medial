@@ -1,6 +1,5 @@
 package com.dulo.chat_platform.repository;
 
-import com.dulo.chat_platform.entity.Phone;
 import com.dulo.chat_platform.entity.User;
 import com.dulo.chat_platform.entity.enums.UserStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
