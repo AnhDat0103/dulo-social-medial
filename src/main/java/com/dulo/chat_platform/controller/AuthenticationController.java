@@ -1,7 +1,9 @@
 package com.dulo.chat_platform.controller;
 
 import com.dulo.chat_platform.dto.request.AuthenticationRequest;
+import com.dulo.chat_platform.dto.request.PasswordResetRequest;
 import com.dulo.chat_platform.dto.response.ApiResponse;
+import com.dulo.chat_platform.dto.response.UserResponse;
 import com.dulo.chat_platform.service.AuthenticationService;
 import com.dulo.chat_platform.service.JwtService;
 import jakarta.validation.Valid;
@@ -40,6 +42,16 @@ public class AuthenticationController {
     @GetMapping("/verify-email")
     public String verify(@RequestParam String token){
         return authenticationService.verify(token);
+    }
+
+    @PatchMapping("/password-reset")
+    public ApiResponse<UserResponse> resetPassword(@RequestBody PasswordResetRequest passwordResetRequest, Authentication authentication){
+        String email = authentication.getName();
+        return ApiResponse.<UserResponse>builder()
+                .code("200")
+                .data(authenticationService.resetPassword(passwordResetRequest, email))
+                .message("update password is successfully.")
+                .build();
     }
 
 

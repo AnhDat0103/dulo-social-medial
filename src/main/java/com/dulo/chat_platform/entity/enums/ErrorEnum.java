@@ -24,7 +24,8 @@ public enum ErrorEnum {
     POST_NOT_FOUND("1025", "Post not exist!" ),
     ACCESSIONED_EXCEPTION("1026", "You are not allowed to update this post"),
     FILE_FAIL_TO_STORE("1027", "Failed to store file." ),
-    ATTACHMENT_NOT_FOUND("1028", "Attachment is not found" );
+    ATTACHMENT_NOT_FOUND("1028", "Attachment is not found" ),
+    PASSWORD_NOT_MATCH("1029","Password not match" );
 
     private final String code;
     private final String message;
