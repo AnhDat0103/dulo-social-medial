@@ -1,16 +1,18 @@
 package com.dulo.chat_platform.service;
 
 
+import com.dulo.chat_platform.dto.response.FriendshipResponse;
 import com.dulo.chat_platform.entity.Friendship;
+import com.dulo.chat_platform.entity.FriendshipId;
 import com.dulo.chat_platform.entity.User;
 import com.dulo.chat_platform.entity.enums.FriendshipStatus;
 import org.springframework.data.domain.Page;
 
 public interface FriendShipService {
 
-    void sendFriendRequest(String fromEmail, String toEmail);
+    void sendFriendRequest(String fromEmail, int toUserId);
 
-    void respondToFriendRequest(int requestId, FriendshipStatus status);
+    FriendshipResponse respondToFriendRequest(FriendshipId requestId, FriendshipStatus status);
 
     Page<User> getListFriends(String email,  int page, int size);
 

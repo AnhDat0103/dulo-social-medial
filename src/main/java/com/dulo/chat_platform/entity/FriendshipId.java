@@ -1,5 +1,6 @@
 package com.dulo.chat_platform.entity;
 
+import com.dulo.chat_platform.dto.response.FriendshipResponse;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotNull;
@@ -7,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -19,4 +21,18 @@ public class FriendshipId implements Serializable {
     @NotNull
     @Column(name = "friend_id", nullable = false)
     private Integer friendId;
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj) return true;
+        if (!(obj instanceof FriendshipId)) return false;
+        FriendshipId that = (FriendshipId) obj;
+        return Objects.equals(userId, that.friendId) &&
+                Objects.equals(friendId, that.userId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, friendId);
+    }
 }
