@@ -2,6 +2,7 @@ package com.dulo.chat_platform.controller;
 
 import com.dulo.chat_platform.dto.response.ApiResponse;
 import com.dulo.chat_platform.dto.response.FriendshipResponse;
+import com.dulo.chat_platform.dto.response.UserResponse;
 import com.dulo.chat_platform.entity.FriendshipId;
 import com.dulo.chat_platform.entity.User;
 import com.dulo.chat_platform.entity.enums.ErrorEnum;
@@ -10,6 +11,8 @@ import com.dulo.chat_platform.exception.AppException;
 import com.dulo.chat_platform.repository.UserRepository;
 import com.dulo.chat_platform.service.FriendShipService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.web.PagedModel;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,6 +50,19 @@ public class FriendShipController {
                 .message("Processing response friend request is completed.")
                 .data(friendshipResponse)
                 .build();
+     }
+
+     @GetMapping
+     public ApiResponse<PagedModel<UserResponse>> getListFriends(Authentication authentication,
+                                                                 @RequestParam(defaultValue = "0") int page,
+                                                                 @RequestParam(defaultValue = "10") int size){
+         String email = authentication.getName();
+         Page<UserResponse> friends = friendShipService.getListFriends(email, page, size);
+         return ApiResponse.<PagedModel<UserResponse>>builder()
+                 .code("200")
+                 .message("Get friend list")
+                 .data(new PagedModel<>(friends))
+                 .build();
      }
 
      public FriendshipStatus getFriendShipStatus(String status){

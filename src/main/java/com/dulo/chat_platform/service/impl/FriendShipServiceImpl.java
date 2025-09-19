@@ -1,17 +1,20 @@
 package com.dulo.chat_platform.service.impl;
 
 import com.dulo.chat_platform.dto.response.FriendshipResponse;
+import com.dulo.chat_platform.dto.response.UserResponse;
 import com.dulo.chat_platform.entity.Friendship;
 import com.dulo.chat_platform.entity.FriendshipId;
 import com.dulo.chat_platform.entity.User;
 import com.dulo.chat_platform.entity.enums.ErrorEnum;
 import com.dulo.chat_platform.entity.enums.FriendshipStatus;
 import com.dulo.chat_platform.exception.AppException;
+import com.dulo.chat_platform.mapper.UserMapper;
 import com.dulo.chat_platform.repository.FriendshipRepository;
 import com.dulo.chat_platform.repository.UserRepository;
 import com.dulo.chat_platform.service.FriendShipService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,6 +25,7 @@ public class FriendShipServiceImpl implements FriendShipService {
 
     private final UserRepository userRepository;
     private final FriendshipRepository friendshipRepository;
+    private final UserMapper userMapper;
 
     @Override
     public void sendFriendRequest(String fromEmail, int  toUserId) {
@@ -73,8 +77,11 @@ public class FriendShipServiceImpl implements FriendShipService {
     }
 
     @Override
-    public Page<User> getListFriends(String email, int page, int size) {
-        return null;
+    public Page<UserResponse> getListFriends(String email, int page, int size) {
+        User user = userRepository.findByEmail(email);
+        if(user == null) throw new AppException(ErrorEnum.USER_NOT_FOUND);
+        Page<User> friends = friendshipRepository.findFriends(user.getId(), PageRequest.of(page, size));
+        return friends.map(userMapper::toUserResponse);
     }
 
     @Override
