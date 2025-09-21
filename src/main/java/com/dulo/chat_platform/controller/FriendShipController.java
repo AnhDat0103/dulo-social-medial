@@ -79,4 +79,17 @@ public class FriendShipController {
      public FriendshipStatus getFriendShipStatus(String status){
         return FriendshipStatus.valueOf(status.toUpperCase());
      }
+
+
+     @GetMapping("/pending-friend-request")
+    public ApiResponse<PagedModel<FriendshipResponse>> getPendingFriendRequest(Authentication authentication,
+                                                                               @RequestParam(defaultValue = "0") int page,
+                                                                               @RequestParam(defaultValue = "5") int size){
+        String currentUser = authentication.getName();
+        return ApiResponse.<PagedModel<FriendshipResponse>>builder()
+                .code("200")
+                .message("Get list pending friend request")
+                .data(new PagedModel<>(friendShipService.getReceivedRequests(currentUser, page, size)))
+                .build();
+     }
 }

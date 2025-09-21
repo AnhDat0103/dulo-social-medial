@@ -1,6 +1,5 @@
 package com.dulo.chat_platform.dto.response;
 
-import com.dulo.chat_platform.entity.FriendshipId;
 import com.dulo.chat_platform.entity.enums.FriendshipStatus;
 import lombok.*;
 

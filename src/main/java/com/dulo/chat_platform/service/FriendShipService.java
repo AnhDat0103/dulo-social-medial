@@ -18,7 +18,5 @@ public interface FriendShipService {
 
     boolean areFriends(String fromEmail, int friendId);
 
-    Page<Friendship> getReceivedRequests(String email, int page, int size);
-
-    Page<Friendship> getSentRequests(String email, int page, int size);
+    Page<FriendshipResponse> getReceivedRequests(String email, int page, int size);
 }

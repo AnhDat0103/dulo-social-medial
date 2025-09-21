@@ -3,6 +3,7 @@ package com.dulo.chat_platform.repository;
 import com.dulo.chat_platform.entity.Friendship;
 import com.dulo.chat_platform.entity.FriendshipId;
 import com.dulo.chat_platform.entity.User;
+import com.dulo.chat_platform.entity.enums.FriendshipStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,4 +34,6 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Friendsh
             nativeQuery = true
     )
     Page<User> findFriends(int id, Pageable pageable);
+
+    Page<Friendship> findAllByFriendAndStatus(User friend, FriendshipStatus status, Pageable pageable);
 }

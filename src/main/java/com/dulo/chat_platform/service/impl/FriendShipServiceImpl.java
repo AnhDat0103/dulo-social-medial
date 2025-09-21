@@ -15,6 +15,7 @@ import com.dulo.chat_platform.service.FriendShipService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -94,13 +95,18 @@ public class FriendShipServiceImpl implements FriendShipService {
     }
 
     @Override
-    public Page<Friendship> getReceivedRequests(String email, int page, int size) {
-        return null;
-    }
-
-    @Override
-    public Page<Friendship> getSentRequests(String email, int page, int size) {
-        return null;
+    public Page<FriendshipResponse> getReceivedRequests(String email, int page, int size) {
+        User currentUser = userRepository.findByEmail(email);
+        if(currentUser == null) throw new AppException(ErrorEnum.USER_NOT_FOUND);
+        Page<Friendship> friendships = friendshipRepository.findAllByFriendAndStatus(currentUser, FriendshipStatus.PENDING, PageRequest.of(page, size, Sort.by("createdAt").descending()));
+        return friendships.map(f ->
+            FriendshipResponse.builder()
+                    .toUserId(currentUser.getId())
+                    .formUserId(f.getUser().getId())
+                    .status(f.getStatus())
+                    .createdAt(f.getCreatedAt())
+                    .build()
+        );
     }
 
     public void deleteFriendRequest(FriendshipId requestId){
