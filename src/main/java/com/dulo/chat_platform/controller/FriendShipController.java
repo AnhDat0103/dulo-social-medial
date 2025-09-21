@@ -65,6 +65,17 @@ public class FriendShipController {
                  .build();
      }
 
+     @GetMapping("check-friendship/{friendId:\\d+}")
+     public ApiResponse<Boolean> checkFriendShip(Authentication authentication, @PathVariable int friendId){
+        String currentUserEmail = authentication.getName();
+        return ApiResponse.<Boolean>builder()
+                .code("200")
+                .message("Check relationship is completed")
+                .data(friendShipService.areFriends(currentUserEmail, friendId))
+                .build();
+     }
+
+
      public FriendshipStatus getFriendShipStatus(String status){
         return FriendshipStatus.valueOf(status.toUpperCase());
      }

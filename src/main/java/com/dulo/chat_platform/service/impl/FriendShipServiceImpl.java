@@ -85,8 +85,12 @@ public class FriendShipServiceImpl implements FriendShipService {
     }
 
     @Override
-    public boolean areFriends(String fromEmail, String toEmail) {
-        return false;
+    public boolean areFriends(String fromEmail, int friendId) {
+        User fromUser = userRepository.findByEmail(fromEmail);
+        if(fromUser == null) throw new AppException(ErrorEnum.USER_NOT_FOUND);
+        User toUser = userRepository.findById(friendId).orElseThrow(() -> new AppException(ErrorEnum.USER_NOT_FOUND));
+
+        return friendshipRepository.existsByFriendship(fromUser.getId(), toUser.getId()) >= 1;
     }
 
     @Override
