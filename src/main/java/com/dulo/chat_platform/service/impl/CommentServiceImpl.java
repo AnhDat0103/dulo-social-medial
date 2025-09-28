@@ -50,8 +50,9 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.save(newComment);
 
         return CommentResponse.builder()
+                .id(newComment.getId())
                 .commentParentID(parentComment != null ? parentComment.getId() : null)
-                .content(commentRequest.getContent())
+                .content(newComment.getContent())
                 .postID(post != null ? post.getId() : null)
                 .userID(user.getId())
                 .build();
