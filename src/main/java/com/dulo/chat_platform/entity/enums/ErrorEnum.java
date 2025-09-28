@@ -27,7 +27,8 @@ public enum ErrorEnum {
     ATTACHMENT_NOT_FOUND("1028", "Attachment is not found" ),
     PASSWORD_NOT_MATCH("1029","Password not match" ),
     CAN_NOT_SEND_FRIEND_REQUEST("1030", "Can not send friend request."),
-    FRIENDSHIP_IS_NOT_FOUND("1031","friendship is not found." );
+    FRIENDSHIP_IS_NOT_FOUND("1031","friendship is not found." ),
+    COMMENT_NOT_FOUND("1032", "Comment is not found!" );
 
     private final String code;
     private final String message;

@@ -3,7 +3,6 @@ package com.dulo.chat_platform.service;
 
 import com.dulo.chat_platform.dto.response.FriendshipResponse;
 import com.dulo.chat_platform.dto.response.UserResponse;
-import com.dulo.chat_platform.entity.Friendship;
 import com.dulo.chat_platform.entity.FriendshipId;
 import com.dulo.chat_platform.entity.enums.FriendshipStatus;
 import org.springframework.data.domain.Page;
